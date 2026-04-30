@@ -4,6 +4,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from dotenv import load_dotenv, find_dotenv
 from groq_client import GroqClient
+from prompts import SYSTEM_PROMPT_DESCRIBE, SYSTEM_PROMPT_RECOMMEND
 
 load_dotenv(find_dotenv())
 
@@ -99,7 +100,7 @@ def describe_incident():
     try:
         result = groq_client.get_structured_response(
             prompt=prompt,
-            system_prompt="You are a senior operational risk analyst. Output only valid JSON."
+            system_prompt=SYSTEM_PROMPT_DESCRIBE
         )
         return jsonify(result), 200
     except Exception as e:
@@ -118,7 +119,7 @@ def recommend_action():
     try:
         result = groq_client.get_structured_response(
             prompt=prompt,
-            system_prompt="You are a senior operational risk analyst. Output only valid JSON."
+            system_prompt=SYSTEM_PROMPT_RECOMMEND
         )
         return jsonify(result), 200
     except Exception as e:
